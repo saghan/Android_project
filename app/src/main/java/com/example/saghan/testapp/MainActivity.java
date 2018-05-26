@@ -1,25 +1,33 @@
 package com.example.saghan.testapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,13 +53,29 @@ public class MainActivity extends AppCompatActivity {
         login_button        = (LoginButton) findViewById(R.id.login_button);
         helloWorld=(TextView)findViewById(R.id.hello_world);
 
+
         login_button.setReadPermissions(Arrays.asList("public_profile","email"));
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
         {
             @Override
             public void onSuccess(LoginResult loginResult)
             {
-                helloWorld.setText("login success");
+                ProfilePictureView profilePictureView;
+
+                profilePictureView = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
+
+                String uid=AccessToken.getCurrentAccessToken().getUserId();
+                profilePictureView.setProfileId(uid);
+
+                helloWorld.setText("login success "+uid );
+
+                if(Profile.getCurrentProfile()==null)
+                {
+                    Log.d("mytag","profile null");
+                    return;
+                }
+                String profile_id=Profile.getCurrentProfile().getId();
+
                 login_button.setVisibility(View.GONE);
 
 
@@ -86,7 +110,9 @@ public class MainActivity extends AppCompatActivity {
 //                parameters.putString("fields", "id,name,first_name,last_name,email");
                 parameters.putString("fields", "id,email");
                 graphRequest.setParameters(parameters);
+
                 graphRequest.executeAsync();
+
             }
 
             @Override
@@ -111,4 +137,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-}
+
+
+
+    }
+
