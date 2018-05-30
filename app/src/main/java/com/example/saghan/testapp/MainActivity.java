@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         tvEmail             = (TextView) findViewById(R.id.email);
         login_button        = (LoginButton) findViewById(R.id.login_button);
         helloWorld=(TextView)findViewById(R.id.hello_world);
+        final Button button_get_friends =(Button) findViewById(R.id.button_find_friends);
+        button_get_friends.setClickable(false);
 
 
         login_button.setReadPermissions(Arrays.asList("public_profile","email"));
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult)
             {
+                button_get_friends.setClickable(true);
                 ProfilePictureView profilePictureView;
 
                 profilePictureView = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
@@ -138,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+protected  void activity2(View view){
+    Intent intent = new Intent(MainActivity.this, Activity2.class);
+    startActivity(intent);
+
+}
 
 
     }
