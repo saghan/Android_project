@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 protected  void activity2(View view){
     Intent intent = new Intent(MainActivity.this, Activity2.class);
     startActivity(intent);
+    //asa
 
 }
 
