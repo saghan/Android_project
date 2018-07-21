@@ -4,3 +4,5 @@ It displays the postitive and negative words it finds based on predefined vocabu
 
 You need to got to "Settings-> Apps" in your phone and select "TestApp", which is the name of the app. Then, you need to go to
 "Permissions" and give sms and storage permissions
+
+app-debug.apk is the final product, which I have uploaded.
